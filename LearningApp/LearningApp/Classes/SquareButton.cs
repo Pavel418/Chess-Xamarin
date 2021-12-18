@@ -9,7 +9,7 @@ namespace LearningApp.Classes
     {
         public bool HaveMoved = false;
 
-        private Piece type;
+        private Piece type = Piece.None;
         public Piece Type
         {
             get => type;

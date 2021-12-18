@@ -70,11 +70,11 @@ namespace LearningApp
 
             for (int i = 0; i < 8; i++)
             {
-                buttons[0][i].SetPiece(PieceColor.Black, Piece.Pawn);
+                buttons[1][i].SetPiece(PieceColor.Black, Piece.Pawn);
                 buttons[6][i].SetPiece(PieceColor.White, Piece.Pawn);
             }
 
-            var row = buttons[1];
+            var row = buttons[0];
             Piece[] pieces = { Piece.Rook, Piece.Knight, Piece.Bishop, Piece.Queen, Piece.King, Piece.Bishop, Piece.Knight, Piece.Rook};
 
             for (int i = 0; i < 2; i++)
@@ -136,16 +136,30 @@ namespace LearningApp
 
         private void KnightMoves(int height, int width, PieceColor color)
         {
-            if (CheckSquare(height - 2, width + 1, color))
-                buttons[height - 2][width + 1].BackgroundColor = Color.Black;
+            int[] heights = { -2, -2, -1, -1, 1, 1, 2, 2 };
+            int[] widths = { -1, 1, -2, 2, -2, 2, -1, 1 };
+
+            for (int i = 0; i < 8; i++)
+            {
+                int y = height + heights[i];
+                int x = width + widths[i];
+
+
+                if (CheckSquare(y, x, color))
+                {
+                    buttons[y][x].BackgroundColor = Color.Orange;
+                }
+                else if (x < 8 && x > -1 && y < 8 && y > -1)
+                    buttons[y][x].BackgroundColor = Color.Blue;
+            }
         }
         
         private bool CheckSquare(int height, int width, PieceColor colorToCheck)
         {
-            if (height > buttons.Count || height < 0)
+            if (height >= buttons.Count || height < 0)
                 return false;
 
-            if (width > buttons.Count || width < 0)
+            if (width >= buttons[height].Count || width < 0)
                 return false;
 
             if (buttons[height][width].Type == Piece.None)
