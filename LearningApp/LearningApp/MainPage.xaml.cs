@@ -13,8 +13,9 @@ namespace LearningApp
     public partial class MainPage : ContentPage
     {
         List<List<SquareButton>> buttons = new List<List<SquareButton>>();
+        List<SquareButton> PossibleMoves = new List<SquareButton>();
 
-        ImageButton ChosenSquare;
+        SquareButton ChosenSquare;
         Color ChosenSquareColor;
 
         public MainPage()
@@ -95,6 +96,22 @@ namespace LearningApp
 
             if (ChosenSquare != null)
             {
+                if (PossibleMoves.Contains(temp))
+                {
+                    temp.SetPiece(ChosenSquare.Color, ChosenSquare.Type);
+                    ChosenSquare.Type = Piece.None;
+                }
+
+                foreach (var move in PossibleMoves)
+                {
+                    if (ChosenSquareColor == Color.WhiteSmoke)
+                        move.BackgroundColor = Color.MediumSeaGreen;
+                    else
+                        move.BackgroundColor = Color.WhiteSmoke;
+                    
+                }
+
+                PossibleMoves.Clear();
                 ChosenSquare.BackgroundColor = ChosenSquareColor;
                 ChosenSquare = null;
                 return;
@@ -148,9 +165,8 @@ namespace LearningApp
                 if (CheckSquare(y, x, color))
                 {
                     buttons[y][x].BackgroundColor = Color.Orange;
+                    PossibleMoves.Add(buttons[y][x]);
                 }
-                else if (x < 8 && x > -1 && y < 8 && y > -1)
-                    buttons[y][x].BackgroundColor = Color.Blue;
             }
         }
         
